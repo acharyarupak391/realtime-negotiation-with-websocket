@@ -4,21 +4,25 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "start": "node dist/index.js",
-    "build": "tsc",
-    "dev": "nodemon index.ts"
+    "setup": "yarn && cd client && yarn && cd ..",
+    "start:server": "tsc && NODE_ENV=production node dist/index.js",
+    "build:server": "tsc",
+    "dev:server": "NODE_ENV=development nodemon index.ts",
+    "start:client": "cd client && npm start",
+    "build:client": "cd client && npm run build",
+    "dev:client": "cd client && npm run start"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codesandbox-app/static-template.git"
+    "url": "git+https://github.com/acharyarupak391/realtime-negotiation-with-websocket.git"
   },
   "keywords": [],
   "author": "Ives van Hoorne",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/codesandbox-app/static-template/issues"
+    "url": "https://github.com/acharyarupak391/realtime-negotiation-with-websocket/issues"
   },
-  "homepage": "https://github.com/codesandbox-app/static-template#readme",
+  "homepage": "https://github.com/acharyarupak391/realtime-negotiation-with-websocket",
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/express-ws": "^3.0.4",
