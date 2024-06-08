@@ -37,23 +37,17 @@ const removeConnection = (connectionId: string, sender: SENDER) => {
   }
 }
 
-const broadcastMessage: BroadcastMessage = (connectionId, message) => {
+const broadcastMessage: BroadcastMessage = (connectionId, message, type) => {
   const connection = getConnection(connectionId);
 
   if (!connection) return;
 
   if (connection.A) {
-    connection.A.send(JSON.stringify({
-      type: 'Info',
-      message
-    }));
+    connection.A.send(JSON.stringify({ type, ...message }));
   }
 
   if (connection.B) {
-    connection.B.send(JSON.stringify({
-      type: 'Info',
-      message
-    }));
+    connection.B.send(JSON.stringify({ type, ...message }));
   }
 }
 

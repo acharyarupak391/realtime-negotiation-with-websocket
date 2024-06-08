@@ -3,7 +3,7 @@ import { ResponseInterface, SubmitInterface } from "../types";
 import { WebSocket } from "ws";
 import { getCurrentMessageStatus, getSettlementStatus, handleWSError, handleWSSuccess, isValidConnection, isValidMessage, isValidSender } from "./utils";
 import { addMessage, retrieveAllMessages } from "../db/utils";
-import { setConnection } from "./connection-pool";
+import { broadcastMessage, setConnection } from "./connection-pool";
 
 async function handleWSSettlementMessage(msg: SubmitInterface | ResponseInterface, db: Database, ws: WebSocket) {
   const { connectionId, sender, type, value } = msg;
@@ -33,7 +33,7 @@ async function handleWSSettlementMessage(msg: SubmitInterface | ResponseInterfac
   if (isSubmitting) {
     if (!isAlreadySubmitted) {
       await addMessage(db, msg)
-      handleWSSuccess(ws, "Submitted",)
+      broadcastMessage(connectionId, { message: "Submitted" }, "Info")
     } else {
       handleWSError(ws, "Already submitted")
     }
@@ -60,7 +60,7 @@ async function handleWSSettlementMessage(msg: SubmitInterface | ResponseInterfac
       }
 
       await addMessage(db, msg);
-      handleWSSuccess(ws, "Modified")
+      broadcastMessage(connectionId, { message: "Modified" }, "Info")
       return;
     }
 
@@ -85,7 +85,7 @@ async function handleWSSettlementMessage(msg: SubmitInterface | ResponseInterfac
     }
 
     await addMessage(db, msg);
-    handleWSSuccess(ws, "Disputed")
+    broadcastMessage(connectionId, { message: "Disputed" }, "Info")
   }
 
   // handle agreement by party B
@@ -106,7 +106,7 @@ async function handleWSSettlementMessage(msg: SubmitInterface | ResponseInterfac
     }
 
     await addMessage(db, msg);
-    handleWSSuccess(ws, "Agreed")
+    broadcastMessage(connectionId, { message: "Agreed" }, "Success")
   }
 }
 

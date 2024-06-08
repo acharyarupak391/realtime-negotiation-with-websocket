@@ -102,6 +102,16 @@ const handleWSSuccess = (ws: WebSocket, message: string, rest: Record<string, st
   );
 }
 
+const handleWSInfo = (ws: WebSocket, message: string, rest: Record<string, string> = {}) => {
+  ws.send(
+    JSON.stringify({
+      type: 'Info',
+      message,
+      ...rest
+    })
+  );
+}
+
 
 const viewPoolsFromMap = (pool: ConnectionPool) => {
   if (pool.size === 0) {
@@ -127,6 +137,7 @@ export {
 
   handleWSError,
   handleWSSuccess,
+  handleWSInfo,
 
   viewPoolsFromMap
 }

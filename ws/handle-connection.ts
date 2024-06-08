@@ -18,7 +18,7 @@ async function handleWSConnectionMessage(msg: ConnectInterface, db: Database, ws
     const newConnectionId = await addNewConnection(db, sender)
     setConnection(newConnectionId, ws, sender)
 
-    handleWSSuccess(ws, `New connection created!`, { newConnectionId })
+    handleWSSuccess(ws, `New connection created!`, { connectionId: newConnectionId })
 
     return newConnectionId;
   }
@@ -26,14 +26,14 @@ async function handleWSConnectionMessage(msg: ConnectInterface, db: Database, ws
 
   const available = await isValidConnection(connectionId, db);
   if (!available) {
-    handleWSError(ws, "No connection found on DB!")
+    handleWSError(ws, "Invalid ID. No connection found!")
     return;
   }
 
   await updateConnection(db, msg);
   setConnection(connectionId, ws, sender)
 
-  broadcastMessage(connectionId, `Party ${sender} joined!`)
+  broadcastMessage(connectionId, { message: `Party ${sender} joined!`, connectionId }, 'Info')
 }
 
 export { handleWSConnectionMessage }

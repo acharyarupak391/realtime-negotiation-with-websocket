@@ -3,7 +3,7 @@ import { ConnectInterface } from "../types";
 import { WebSocket } from "ws";
 import { updateConnection } from "../db/utils";
 import { removeConnection } from "./connection-pool";
-import { handleWSError } from "./utils";
+import { handleWSError, handleWSInfo } from "./utils";
 
 async function handleWSDisconnectMessage(msg: ConnectInterface, db: Database, ws: WebSocket) {
   if (!msg.connectionId) {
@@ -14,6 +14,7 @@ async function handleWSDisconnectMessage(msg: ConnectInterface, db: Database, ws
   await updateConnection(db, msg, false);
 
   removeConnection(msg.connectionId, msg.sender);
+  handleWSInfo(ws, `Party ${msg.sender} left!`)
 }
 
 export { handleWSDisconnectMessage };

@@ -6,3 +6,5 @@ dist/
 **/.env
 
 client/.next
+
+db/*.db

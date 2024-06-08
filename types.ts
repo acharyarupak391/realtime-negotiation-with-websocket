@@ -45,7 +45,7 @@ type ConnectionPool = Map<string, Connection>
 
 type GetConnection = (connectionId: string) => Connection | undefined;
 type SetConnection = (connectionId: string, ws: WebSocket, sender: SENDER) => void;
-type BroadcastMessage = (connectionId: string, message: string) => void;
+type BroadcastMessage = (connectionId: string, message: Record<string, any>, type: WSMessageType, key?: string) => void;
 
 interface ConnectionData {
   connection_id: string;
@@ -62,6 +62,8 @@ interface MessageData {
   sender: string;
   created_at: string;
 }
+
+type WSMessageType = 'Info' | 'Error' | 'Success';
 
 export {
   SENDER,
@@ -81,4 +83,6 @@ export {
 
   ConnectionData,
   MessageData,
+
+  WSMessageType
 }

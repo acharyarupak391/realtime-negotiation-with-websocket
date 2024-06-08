@@ -39,6 +39,7 @@ async function updateConnection(
     const isPartyBOnline = isPartyB ? joined : connection.is_party_b_online;
 
     if (!isPartyAOnline && !isPartyBOnline) {
+      await db.run("DELETE FROM messages WHERE connection_id = ?", [msg.connectionId]);
       await db.run("DELETE FROM connections WHERE connection_id = ?", [msg.connectionId]);
       return;
     }
