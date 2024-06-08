@@ -76,14 +76,20 @@ const Card = ({
 
         <p
           title={
-            formatCurrency(!isNaN(Number(value)) ? value : lastValue || 0).long
+            formatCurrency(
+              !Number.isNaN(Number(value)) ? value : lastValue || 0
+            ).long
           }
           className={classnames(
             "text-3xl font-bold max-w-48 text-ellipsis overflow-hidden",
             isYourMessage ? "text-white" : "text-gray-700"
           )}
         >
-          {formatCurrency(!isNaN(Number(value)) ? value : lastValue || 0).short}
+          {
+            formatCurrency(
+              !Number.isNaN(Number(value)) ? value : lastValue || 0
+            ).short
+          }
         </p>
       </div>
     </div>

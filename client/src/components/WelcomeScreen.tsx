@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { Button } from "./Button";
 import { useEffect, useState } from "react";
 import { useConnectionStore } from "@/utils/store";
@@ -118,13 +117,18 @@ const WelcomeScreen = ({
             <input
               type="text"
               value={inputValue}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  inputValue && handleConnection(inputValue);
+                }
+              }}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Connection ID"
               className="border border-gray-300 rounded-lg p-2 w-full text-gray-900 flex-1"
             />
             <Button
               variant="outlined"
-              onClick={() => handleConnection(inputValue)}
+              onClick={() => inputValue && handleConnection(inputValue)}
               className="px-12"
               Icon={IconArrowsJoin}
             >

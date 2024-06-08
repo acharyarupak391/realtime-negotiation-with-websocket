@@ -20,7 +20,7 @@ const useWebsocket = () => {
     _dbMessages.forEach((msg, i) => {
       _dbMessages[i].last_value = lastValue.toString();
 
-      if (!isNaN(Number(msg.value))) {
+      if (!Number.isNaN(Number(msg.value))) {
         lastValue = Number(msg.value);
       }
     });
@@ -51,7 +51,7 @@ const useWebsocket = () => {
   }, [alertMessage]);
 
   useEffect(() => {
-    const url = process.env.NEXT_PUBLIC_WS_URL;
+    const url = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080";
 
     if (!url) {
       console.error("No Websocket URL provided");
