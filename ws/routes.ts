@@ -12,11 +12,11 @@ import { broadcastMessage } from "./connection-pool";
 const setupWSRoutes = (app: expressWs.Application, db: Database) => {
   app.ws("/connect", (ws: WebSocket) => {
     ws.on("open", () => {
-      console.log("OPEN event");
+      // console.log("OPEN event");
     });
 
     ws.on("close", () => {
-      console.log("CLOSED");
+      // console.log("CLOSED");
     });
 
     ws.on("message", async (msg) => {

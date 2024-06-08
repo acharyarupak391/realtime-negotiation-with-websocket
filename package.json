@@ -8,9 +8,9 @@
     "start:server": "tsc && NODE_ENV=production node dist/index.js",
     "build:server": "tsc",
     "dev:server": "NODE_ENV=development nodemon index.ts",
-    "start:client": "cd client && npm start",
-    "build:client": "cd client && npm run build",
-    "dev:client": "cd client && npm run start"
+    "start:client": "cd client && yarn start",
+    "build:client": "cd client && yarn build",
+    "dev:client": "cd client && yarn dev"
   },
   "repository": {
     "type": "git",

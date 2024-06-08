@@ -2,7 +2,6 @@ import { BroadcastMessage, ConnectionPool, GetConnection, SENDER, SetConnection 
 import { viewPoolsFromMap } from "./utils";
 
 var pool: ConnectionPool = new Map();
-viewPoolsFromMap(pool);
 
 const getConnection: GetConnection = (connectionId) => {
   return pool.get(connectionId);

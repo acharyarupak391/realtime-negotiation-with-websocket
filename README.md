@@ -1,7 +1,7 @@
 # Realtime Settlement Process w/ Websockets
 
 This repository contains a server and client implementation of a realtime settlement process using websockets. 
-The server is written in NodeJS(express & express-ws) and the client is written in NextJS. 
+The server is written in NodeJS(express & express-ws) and the client is written in NextJS & tailwindcss. 
 The server is responsible for handling the connection pools for two parties, A and B and the settlement process between them.
 The client is responsible for connecting to the server and sending settlement requests from party A and B.
 

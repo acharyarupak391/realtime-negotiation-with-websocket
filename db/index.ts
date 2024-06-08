@@ -3,12 +3,14 @@ import { verbose } from "sqlite3";
 import { Database, open } from "sqlite";
 const sqlite3 = verbose();
 
+const isProduction = process.env.NODE_ENV === "production";
+
 // Function to initialize SQLite database
 async function initializeDatabase() {
-  // open database in memory
+
   // const db = new sqlite3.Database(":memory:", (err) => {
   const db: Database = await open({
-    filename: "./db/database.db",
+    filename: isProduction ? "./dist/db/database.db" : "./db/database.db",
     driver: sqlite3.Database,
     mode: sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
   });
