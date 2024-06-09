@@ -34,7 +34,7 @@ const FinalScreen = ({
         variant="outlined"
         size="md"
       >
-        Close
+        Leave
       </Button>
     </div>
   );

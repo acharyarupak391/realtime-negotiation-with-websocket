@@ -10,12 +10,14 @@ const Card = ({
   value,
   lastValue,
   isYourMessage,
+  animated,
 }: {
   party: SENDER;
   type: RESPONSE_TYPE;
   value: string | RESPONSE_VALUE;
   lastValue?: string;
   isYourMessage?: boolean;
+  animated?: boolean;
 }) => {
   const { isSubmitted, isModified, isAgreed, isDisputed } = useMemo(() => {
     return {
@@ -29,8 +31,10 @@ const Card = ({
   return (
     <div
       className={classnames(
-        "shadow-md rounded-xl w-full max-w-96 p-4 flex justify-between",
-        isYourMessage ? "bg-blue-600 ml-auto" : "bg-gray-200 mr-auto"
+        "shadow-md rounded-xl w-full max-w-72 sm:max-w-96 p-2 sm:p-4 flex justify-between",
+        isYourMessage ? "bg-blue-600 ml-auto" : "bg-gray-200 mr-auto",
+        animated &&
+          (isYourMessage ? "animate-fade-from-right" : "animate-fade-from-left")
       )}
     >
       <div className="">
@@ -45,7 +49,7 @@ const Card = ({
 
         <span
           className={classnames(
-            "mt-3 block",
+            "mt-2 sm:mt-3 block",
             isYourMessage ? "text-gray-100" : "text-gray-700"
           )}
         >
@@ -81,7 +85,7 @@ const Card = ({
             ).long
           }
           className={classnames(
-            "text-3xl font-bold max-w-48 text-ellipsis overflow-hidden",
+            "text-2xl sm:text-3xl font-bold max-w-48 text-ellipsis overflow-hidden",
             isYourMessage ? "text-white" : "text-gray-700"
           )}
         >

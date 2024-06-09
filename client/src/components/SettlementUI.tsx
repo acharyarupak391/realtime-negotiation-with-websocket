@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import {
   DisputeOrAgreeHandler,
   MessageData,
@@ -10,18 +10,28 @@ import {
 import { Card } from "./Card";
 import { Interface } from "./Interface";
 import { CopyButton } from "./CopyButton";
+import { Button } from "./Button";
+import { IconLogout2 } from "@tabler/icons-react";
 
 const SettlementUI = ({
   dbMessages,
   party,
   connectionId,
   send,
+  onClose,
 }: {
   dbMessages: MessageData[];
   party: SENDER;
   connectionId: string;
   send: (msg: WebsocketMessage) => void;
+  onClose: () => void;
 }) => {
+  const divRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    divRef.current?.scrollTo(0, divRef.current?.scrollHeight);
+  }, [dbMessages.length]);
+
   const handleSubmitOrModify: SubmitOrModifyHandler = useCallback(
     (value, type) => {
       send({
@@ -48,7 +58,10 @@ const SettlementUI = ({
 
   return (
     <>
-      <div className="flex flex-col gap-4 px-4 py-6 bg-white border border-gray-300 rounded-lg rounded-b-none max-h-[700px] overflow-y-auto relative">
+      <div
+        className="flex flex-col gap-4 px-4 py-6 bg-white border border-gray-300 rounded-lg rounded-b-none max-h-[500px] sm:max-h-[700px] overflow-y-auto relative"
+        ref={divRef}
+      >
         {dbMessages.length === 0 && (
           <div className="text-center text-gray-400">
             <p>No submissions yet.</p>
@@ -61,7 +74,7 @@ const SettlementUI = ({
         )}
 
         {dbMessages.length > 0 &&
-          dbMessages.map((message) => (
+          dbMessages.map((message, i) => (
             <Card
               key={message.id}
               party={message.sender as SENDER}
@@ -69,6 +82,7 @@ const SettlementUI = ({
               value={message.value}
               lastValue={message.last_value}
               isYourMessage={message.sender === party}
+              animated={i === dbMessages.length - 1}
             />
           ))}
       </div>
@@ -99,9 +113,22 @@ const SettlementUI = ({
         )}
       </div>
 
-      <CopyButton text={connectionId} className="ml-auto">
-        {(copied) => (copied ? "Copied to clipboard!" : "Copy Connection ID")}
-      </CopyButton>
+      <div className="flex justify-between mt-4">
+        <Button
+          onClick={onClose}
+          Icon={IconLogout2}
+          className=""
+          variant="outlined"
+          accent="danger"
+          size="sm"
+          iconLeft
+        >
+          Leave Settlement
+        </Button>
+        <CopyButton text={connectionId} className="ml-auto">
+          {(copied) => (copied ? "Copied to clipboard!" : "Copy Connection ID")}
+        </CopyButton>
+      </div>
     </>
   );
 };

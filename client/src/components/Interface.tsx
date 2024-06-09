@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   DisputeOrAgreeHandler,
   MessageData,
@@ -61,6 +61,34 @@ const Interface = ({
     };
   }, [messages, inputValue]);
 
+  const handleSubmit = useCallback(
+    (firstBtn = true, isInputEnter = false) => {
+      if (isInputEnter) {
+        if (!canSubmit && !canModify) return;
+
+        handleSend(
+          +Number(inputValue) as never,
+          (canSubmit ? RESPONSE_TYPE.SUBMIT : RESPONSE_TYPE.MODIFIED) as never
+        );
+        return;
+      }
+
+      if (firstBtn) {
+        handleSend(
+          (isSenderA ? +Number(inputValue) : RESPONSE_VALUE.DISPUTE) as never,
+          (isSenderA ? RESPONSE_TYPE.MODIFIED : RESPONSE_TYPE.RESPONSE) as never
+        );
+        return;
+      }
+
+      handleSend(
+        (isSenderA ? +Number(inputValue) : RESPONSE_VALUE.AGREE) as never,
+        (isSenderA ? RESPONSE_TYPE.SUBMIT : RESPONSE_TYPE.RESPONSE) as never
+      );
+    },
+    [handleSend, inputValue, isSenderA, canSubmit, canModify]
+  );
+
   return (
     <div className="w-full">
       {isSenderA && (
@@ -69,6 +97,7 @@ const Interface = ({
           placeholder="Enter a value"
           value={inputValue}
           onChange={(e) => setInputValue(Number(e.target.value))}
+          onKeyDown={(e) => e.key === "Enter" && handleSubmit(false, true)}
           className="border border-gray-300 rounded-lg p-2 w-full text-gray-900 mb-4"
           min={0}
         />
@@ -78,16 +107,7 @@ const Interface = ({
         <Button
           className="flex-1"
           variant="outlined"
-          onClick={() => {
-            handleSend(
-              (isSenderA
-                ? +Number(inputValue)
-                : RESPONSE_VALUE.DISPUTE) as never,
-              (isSenderA
-                ? RESPONSE_TYPE.MODIFIED
-                : RESPONSE_TYPE.RESPONSE) as never
-            );
-          }}
+          onClick={() => handleSubmit()}
           accent={isSenderA ? "info" : "danger"}
           disabled={isSenderA ? !canModify : !canDispute}
           Icon={isSenderA ? IconEdit : IconThumbDown}
@@ -97,14 +117,7 @@ const Interface = ({
 
         <Button
           className="flex-1"
-          onClick={() => {
-            handleSend(
-              (isSenderA ? +Number(inputValue) : RESPONSE_VALUE.AGREE) as never,
-              (isSenderA
-                ? RESPONSE_TYPE.SUBMIT
-                : RESPONSE_TYPE.RESPONSE) as never
-            );
-          }}
+          onClick={() => handleSubmit(false)}
           accent={isSenderA ? "default" : "success"}
           disabled={isSenderA ? !canSubmit : !canAgree}
           Icon={isSenderA ? IconSend2 : IconThumbUp}

@@ -16,6 +16,32 @@ const config: Config = {
       fontFamily: {
         inter: ["Inter", "sans-serif"],
         "work-sans": ["Work Sans", "sans-serif"],
+      },
+      keyframes: {
+        fadeFromRight: {
+          "0%": {
+            opacity: '0',
+            transform: "translateX(25%)",
+          },
+          "100%": {
+            opacity: '1',
+            transform: "translateX(0)",
+          },
+        },
+        fadeFromLeft: {
+          "0%": {
+            opacity: '0',
+            transform: "translateX(-25%)",
+          },
+          "100%": {
+            opacity: '1',
+            transform: "translateX(0)",
+          },
+        }
+      },
+      animation: {
+        "fade-from-right": "fadeFromRight 0.25s ease-in",
+        "fade-from-left": "fadeFromLeft 0.25s ease-in",
       }
     },
   },

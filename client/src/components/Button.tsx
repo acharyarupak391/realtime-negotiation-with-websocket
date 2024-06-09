@@ -26,7 +26,7 @@ const Button = (
     <Icon
       size={
         size === "sm"
-          ? 16
+          ? 14
           : size === "md"
           ? 20
           : size === "lg"
@@ -52,9 +52,9 @@ const Button = (
         variant === "outlined" ? "!bg-transparent" : "!text-white",
         "disabled:opacity-25 disabled:cursor-not-allowed",
         size === "sm"
-          ? "text-sm py-2 px-3"
+          ? "text-xs py-1 px-2 leading-3"
           : size === "md"
-          ? "text-md py-2 px-4"
+          ? "text-md py-2 px-3"
           : size === "lg"
           ? "text-lg py-3 px-4"
           : size === "xl"

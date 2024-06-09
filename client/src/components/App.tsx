@@ -5,6 +5,7 @@ import { useCallback, useMemo } from "react";
 import { useConnectionStore } from "@/utils/store";
 import { FinalScreen } from "./FinalScreen";
 import { SettlementUI } from "./SettlementUI";
+import { Header } from "./Header";
 
 const App = () => {
   const { send, allMessages, dbMessages, setAllMessages } = useWebsocket();
@@ -39,22 +40,27 @@ const App = () => {
   }, [setAllMessages, setValues, send, party, connectionId]);
 
   return (
-    <div className="py-4 pt-12 px-4 mx-auto max-w-[600px] min-h-screen flex flex-col gap-4">
-      {connectionId && party ? (
-        !isAgreed ? (
-          <SettlementUI
-            dbMessages={dbMessages}
-            party={party}
-            connectionId={connectionId}
-            send={send}
-          />
+    <>
+      <Header />
+
+      <div className="py-4 pt-12 px-4 mx-auto max-w-[600px] min-h-screen flex flex-col gap-4">
+        {connectionId && party ? (
+          !isAgreed ? (
+            <SettlementUI
+              dbMessages={dbMessages}
+              party={party}
+              connectionId={connectionId}
+              send={send}
+              onClose={closeConnection}
+            />
+          ) : (
+            <FinalScreen amount={agreedValue} onClose={closeConnection} />
+          )
         ) : (
-          <FinalScreen amount={agreedValue} onClose={closeConnection} />
-        )
-      ) : (
-        <WelcomeScreen send={send} wsMessages={allMessages} />
-      )}
-    </div>
+          <WelcomeScreen send={send} wsMessages={allMessages} />
+        )}
+      </div>
+    </>
   );
 };
 

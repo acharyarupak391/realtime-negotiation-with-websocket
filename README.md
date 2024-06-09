@@ -1,4 +1,4 @@
-# Realtime Settlement Process w/ Websockets
+# Realtime Payment Settlement w/ Websockets
 
 This repository contains a server and client implementation of a realtime settlement process using websockets. 
 The server is written in NodeJS(express & express-ws) and the client is written in NextJS & tailwindcss. 
